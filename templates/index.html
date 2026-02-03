@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Resume Analyzer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(120deg, #667eea, #764ba2);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        background: #ffffff;
+        width: 900px;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    p.subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 30px;
+    }
+
+    .upload-box {
+        border: 2px dashed #aaa;
+        padding: 30px;
+        text-align: center;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    input[type="file"] {
+        margin-top: 15px;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #5a67d8;
+    }
+
+    .result {
+        margin-top: 40px;
+    }
+
+    .card {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .card h3 {
+        margin-top: 0;
+        color: #444;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    table, th, td {
+        border: 1px solid #ccc;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background: #667eea;
+        color: #fff;
+    }
+
+    .missing {
+        color: red;
+    }
+
+    .suggestion {
+        color: green;
+    }
+
+    pre {
+        white-space: pre-wrap;
+        font-family: inherit;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #aaa;
+        font-size: 14px;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>📄 AI Resume Analyzer</h1>
+    <p class="subtitle">Smart ATS Scoring & Resume Insights</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="upload-box">
+            <h3>Upload your Resume (PDF)</h3>
+            <input type="file" name="resume" required>
+        </div>
+        <center>
+            <button type="submit">Analyze Resume 🚀</button>
+        </center>
+    </form>
+
+    {% if result %}
+    <div class="result">
+
+        <div class="card">
+            <h3>📊 ATS Score</h3>
+            <p>{{ result.ats }} / 100</p>
+        </div>
+
+        <div class="card">
+            <h3>✅ Skills Matched</h3>
+            {% if result.matched %}
+            <ul>
+                {% for skill in result.matched %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>None detected</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h3>❌ Missing Keywords</h3>
+            {% if result.missing %}
+            <ul>
+                {% for word in result.missing %}
+                <li class="missing">{{ word }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>None missing</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h3>💡 Suggestions</h3>
+            {% if result.suggestions %}
+            <ul>
+                {% for suggestion in result.suggestions %}
+                <li class="suggestion">{{ suggestion }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No suggestions</p>
+            {% endif %}
+        </div>
+
+    </div>
+    {% endif %}
+
+    <footer>
+        Built with ❤️ using Gemini AI | Interview-Ready Project
+    </footer>
+</div>
+</body>
+</html>

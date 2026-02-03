@@ -1,0 +1,7 @@
+flask
+pillow
+google-geanai
+google-generativeai
+python-dotenv
+PyPDF2
+gunicorn
